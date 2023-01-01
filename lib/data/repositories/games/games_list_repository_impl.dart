@@ -29,21 +29,20 @@ class GamesListRepositoryImpl implements GamesListRepository {
     var dio = _dioService.getDio();
     const baseGamesUrl = ConstantsAPI.game;
     try {
-      final response = await dio.post(
-        baseGamesUrl,
-        data: '''
+      final response = await dio.post(baseGamesUrl,
+          data: '''
           fields id, name, platforms, summary, screenshots.url, genres.name, platforms.name;
           where platforms = $idPlatform;
           limit $limit;
           offset $offset;
         ''',
-      );
+          options: Options(validateStatus: (_) => true));
 
       var statusCode = response.statusCode;
       developer.log('$statusCode', name: 'StatusCode');
 
+      developer.log(response.data.toString());
       final responseData = response.data as List<dynamic>;
-      developer.log(responseData.toString());
 
       if (statusCode == 200) {
         var responseInternal = responseData
