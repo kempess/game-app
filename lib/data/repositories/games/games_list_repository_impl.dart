@@ -39,9 +39,9 @@ class GamesListRepositoryImpl implements GamesListRepository {
           options: Options(validateStatus: (_) => true));
 
       var statusCode = response.statusCode;
-      developer.log('$statusCode', name: 'StatusCode');
+      // developer.log('$statusCode', name: 'StatusCode');
 
-      developer.log(response.data.toString());
+      // developer.log(response.data.toString());
       final responseData = response.data as List<dynamic>;
 
       if (statusCode == 200) {
@@ -61,6 +61,44 @@ class GamesListRepositoryImpl implements GamesListRepository {
           idPlatform: idPlatform,
         );
       }
+    } on DioError catch (e, s) {
+      var errorStatusCode = e.response?.statusCode;
+      if (errorStatusCode == 429) {
+        throw TooManyRequestsException('Many Request happening.');
+      }
+      developer.log('$errorStatusCode', name: 'errorStatusCode');
+      developer.log('$e', name: 'Dio Error', stackTrace: s);
+      developer.log('$s', name: 'Dio StackTrace', stackTrace: s);
+      throw ServerException('Exception on server');
+    } catch (e, s) {
+      developer.log('$e', name: 'Error', stackTrace: s);
+      developer.log('$s', name: 'StackTrace', stackTrace: s);
+      throw ServerException('Exception when load Games List');
+    }
+  }
+
+  @override
+  Future<void> generateToken() async {
+    var dio = _dioService.getDio();
+    const baseGamesUrl =
+        "https://id.twitch.tv/oauth2/token?client_id=0uy52675r40ll0yo5a2p1v36cjxw64&client_secret=dzarctfdcgbv2rdadw4loka5m4g380&grant_type=client_credentials";
+    try {
+      final response = await dio.post(baseGamesUrl,
+          data: {
+            "client_id": "0uy52675r40ll0yo5a2p1v36cjxw64",
+            "client_secret": "dzarctfdcgbv2rdadw4loka5m4g380",
+            "grant_type": "client_credentials"
+          },
+          options: Options(validateStatus: (_) => true));
+
+      var statusCode = response.statusCode;
+      developer.log('$statusCode', name: 'StatusCode');
+
+      developer.log(response.data.toString());
+
+      if (statusCode == 200) {
+        ConstantsAPI.token = response.data['access_token'];
+      } else {}
     } on DioError catch (e, s) {
       var errorStatusCode = e.response?.statusCode;
       if (errorStatusCode == 429) {

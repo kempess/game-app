@@ -35,6 +35,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    HomePageBloc(
+      gamesRepository: context.read<GamesListRepository>(),
+    ).add(Intializing());
     xbox = HomePageBloc(
       gamesRepository: context.read<GamesListRepository>(),
     )..add(GamesListEventUtils.xbox);

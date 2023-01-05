@@ -6,7 +6,7 @@ class DioServiceImpl implements DioService {
   @override
   Dio getDio() {
     const baseGameUrl = ConstantsAPI.game;
-    const token = ConstantsAPI.token;
+    final token = ConstantsAPI.token;
     const clientId = ConstantsAPI.clientId;
 
     return Dio(

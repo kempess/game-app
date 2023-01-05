@@ -8,6 +8,18 @@ abstract class HomePageState extends Equatable {
   List<Object> get props => [];
 }
 
+class IntializingError extends HomePageState {
+  final String message;
+  const IntializingError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
+class IntializingLoading extends HomePageState {}
+
+class IntializingSuccess extends HomePageState {}
+
 class HomePageInitial extends HomePageState {}
 
 class HomePageLoading extends HomePageState {}

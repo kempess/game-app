@@ -6,4 +6,6 @@ abstract class GamesListRepository {
     required int offset,
     required int idPlatform,
   });
+
+  Future<void> generateToken();
 }

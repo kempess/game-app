@@ -18,6 +18,26 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   })  : _gamesRepository = gamesRepository,
         super(HomePageInitial()) {
     on<GamesListEvent>(_getListGames);
+    on<Intializing>(_initializing);
+  }
+
+  FutureOr<void> _initializing(
+    Intializing event,
+    Emitter<HomePageState> emit,
+  ) async {
+    emit(
+      IntializingLoading(),
+    );
+    try {
+      await _gamesRepository.generateToken();
+      emit(
+        IntializingSuccess(),
+      );
+    } catch (e) {
+      emit(
+        IntializingError(e.toString()),
+      );
+    }
   }
 
   FutureOr<void> _getListGames(

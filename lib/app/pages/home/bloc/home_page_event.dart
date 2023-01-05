@@ -8,6 +8,8 @@ abstract class HomePageEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class Intializing extends HomePageEvent {}
+
 class GamesListEvent extends HomePageEvent {
   final int limit;
   final int offset;
