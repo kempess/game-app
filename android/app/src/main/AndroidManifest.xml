@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.game">
+    package="com.gamebot.app">
    <application
         android:label="game"
         android:name="${applicationName}"
